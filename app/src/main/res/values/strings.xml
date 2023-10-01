@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FLO</string>
+    <string name="pannel_text"> 포근하게 덮어주는 꿈의\n목소리</string>
+    <string name="music_title">제목</string>
+    <string name="music_singer">가수</string>
+    <string name="album_cover">album_cover</string>
+    <string name="album_play">album_play</string>
 </resources>
