@@ -243,11 +243,34 @@
         app:layout_constraintTop_toTopOf="@+id/song_player_layout" />
 
     <ImageView
+        android:id="@+id/song_repeat_on_iv"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/nugu_btn_repeat_inactive"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/song_player_layout"
+        app:layout_constraintEnd_toStartOf="@+id/song_player_layout"
+        app:layout_constraintTop_toTopOf="@+id/song_player_layout" />
+
+
+    <ImageView
         android:id="@+id/song_random_iv"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:src="@drawable/nugu_btn_random_inactive"
+        app:layout_constraintBottom_toBottomOf="@+id/song_player_layout"
+        app:layout_constraintStart_toEndOf="@+id/song_player_layout"
+        app:layout_constraintTop_toTopOf="@+id/song_player_layout" />
+
+    <ImageView
+        android:id="@+id/song_random_on_iv"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/nugu_btn_random_inactive"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/song_player_layout"
         app:layout_constraintStart_toEndOf="@+id/song_player_layout"
         app:layout_constraintTop_toTopOf="@+id/song_player_layout" />

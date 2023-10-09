@@ -33,6 +33,22 @@ class SongActivity : AppCompatActivity() {
             setPlayStatus(true)
         }
 
+        //반복버튼 이미지 전환하기
+        binding.songRepeatIv.setOnClickListener {
+            setRepeatStatus(false)
+        }
+        binding.songRepeatOnIv.setOnClickListener {
+            setRepeatStatus(true)
+        }
+
+        //랜덤버튼 이미지 전환하기
+        binding.songRandomIv.setOnClickListener {
+            setMixStatus(false)
+        }
+        binding.songRandomOnIv.setOnClickListener {
+            setMixStatus(true)
+        }
+
         //미니플레이어에서 제목, 가수 데이터 받아서 바인딩
         if(intent.hasExtra("title") && intent.hasExtra("singer")) {
             binding.songMusicTitleTv.text=intent.getStringExtra("title")
@@ -42,13 +58,33 @@ class SongActivity : AppCompatActivity() {
 
     }
 
-    fun setPlayStatus(isPalying : Boolean) {
-        if(isPalying) {
+    private fun setPlayStatus(isPlaying : Boolean) {
+        if(isPlaying) {
             binding.songMiniplayerIv.visibility = View.VISIBLE
             binding.songPauseIv.visibility = View.GONE
         } else {
             binding.songMiniplayerIv.visibility = View.GONE
             binding.songPauseIv.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setRepeatStatus(isRepeating : Boolean) {
+        if(isRepeating) {
+            binding.songRepeatIv.visibility = View.VISIBLE
+            binding.songRepeatOnIv.visibility = View.GONE
+        } else {
+            binding.songRepeatIv.visibility = View.GONE
+            binding.songRepeatOnIv.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setMixStatus(isMixing : Boolean) {
+        if(isMixing) {
+            binding.songRandomIv.visibility = View.VISIBLE
+            binding.songRandomOnIv.visibility = View.GONE
+        } else {
+            binding.songRandomIv.visibility = View.GONE
+            binding.songRandomOnIv.visibility = View.VISIBLE
         }
     }
 }

@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.flo.databinding.FragmentAlbumBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class AlbumFragment : Fragment() {
 
     lateinit var binding: FragmentAlbumBinding
+
+    private val information = arrayListOf("수록곡", "상세정보", "영상")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,13 +27,22 @@ class AlbumFragment : Fragment() {
         }
 
         //Toast 메시지 팝업창
-        binding.songLalacLayout.setOnClickListener {
-            Toast.makeText(activity, "LILAC",Toast.LENGTH_SHORT).show()
-        }
+//        binding.songLalacLayout.setOnClickListener {
+//            Toast.makeText(activity, "LILAC",Toast.LENGTH_SHORT).show()
+//        }
 
         //앨범 데이터 받아오기
         binding.albumMusicTitleTv.text=arguments?.getString("title")
         binding.albumSingerNameTv.text=arguments?.getString("singer")
+
+        val albumAdapter = AlbumVPAdapter(this)
+        binding.albumContentVp.adapter = albumAdapter
+
+        //Tb와 Vp 동기화
+        TabLayoutMediator(binding.albumContentTb, binding.albumContentVp){
+            tab, position ->
+            tab.text = information[position]
+        }.attach()
 
         return binding.root
     }
