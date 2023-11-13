@@ -1,16 +1,18 @@
 package com.example.flo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flo.databinding.FragmentHomeBinding
 import com.google.gson.Gson
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), AlbumRVAdapter.CommunicationInterface {
 
     private lateinit var binding: FragmentHomeBinding
     private var albumDatas = ArrayList<Album>()
@@ -22,22 +24,17 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-//        binding.homeAlbumImgIv1.setOnClickListener {
-//
-//            val albumFragment = AlbumFragment()
-//            val bundle = Bundle()
-//            bundle.putString("title", binding.homeAlbumTitleTv.text.toString())
-//            bundle.putString("singer", binding.homeAlbumSingerTv.text.toString())
-//            albumFragment.arguments = bundle
-//
-//            (context as MainActivity).supportFragmentManager.beginTransaction()
-//                .replace(R.id.main_frm,albumFragment)
-//                .commitAllowingStateLoss()
-//        }
-
         //데이터 리스트 생성 더미 데이터
         albumDatas.apply {
-            add(Album("MELTING POINT", "ZEROBASEONE(제로베이스원)", R.drawable.img_album_exp5))
+            add(Album("MELTING POINT", "ZEROBASEONE(제로베이스원)", R.drawable.img_album_exp5).apply {
+                songs = ArrayList<Song>().apply {
+                    add(Song("MELTING POINT", "ZEROBASEONE(제로베이스원)", 0, 0, false, "", R.drawable.img_album_exp5))
+                    add(Song("Take My Hand", "ZEROBASEONE(제로베이스원)", 0, 0, false, "", R.drawable.img_album_exp5))
+                    add(Song("CRUSH (가시)", "ZEROBASEONE(제로베이스원)", 0, 0, false, "", R.drawable.img_album_exp5))
+                    add(Song("Kidz Zone", "ZEROBASEONE(제로베이스원)", 0, 0, false, "", R.drawable.img_album_exp5))
+                    add(Song("Good Night", "ZEROBASEONE(제로베이스원)", 0, 0, false, "", R.drawable.img_album_exp5))
+                }
+            })
             add(Album("YOUTH IN THE SHADE", "ZEROBASEONE(제로베이스원)", R.drawable.img_album_exp6))
             add(Album("Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
             add(Album("Lilac", "아이유 (IU)", R.drawable.img_album_exp2))
@@ -53,6 +50,10 @@ class HomeFragment : Fragment() {
         albumRVAdapter.setMyItemClickListener(object: AlbumRVAdapter.MyItemClickListener{
             override fun onItemClick(album: Album) {
                 changeAlbumFragment(album)
+            }
+
+            override fun onPlayBtnClick(album: Album) {
+                sendData(album)
             }
         } )
 
@@ -76,4 +77,15 @@ class HomeFragment : Fragment() {
             })
             .commitAllowingStateLoss()
     }
+
+    override fun sendData(album: Album) {
+        val firstSong = album.songs?.getOrNull(0)
+        if (firstSong != null) {
+            if (activity is MainActivity) {
+                val activity = activity as MainActivity
+                activity.updateMainPlayer(firstSong)
+            }
+        }
+    }
+
 }

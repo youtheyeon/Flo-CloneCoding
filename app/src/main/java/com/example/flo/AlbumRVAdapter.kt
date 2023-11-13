@@ -9,22 +9,17 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.Adap
 
     interface MyItemClickListener {
         fun onItemClick(album: Album)
+        fun onPlayBtnClick(album: Album)
+    }
+
+    interface CommunicationInterface {
+        fun sendData(album: Album)
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
     fun setMyItemClickListener(itemClickListener: MyItemClickListener) {
         mItemClickListener = itemClickListener
     }
-
-//    fun addItem(album: Album){
-//        albumList.add(album)
-//        notifyDataSetChanged()
-//    }
-//
-//    fun removeItem(position: Int){
-//        albumList.removeAt(position)
-//        notifyDataSetChanged()
-//    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): AlbumRVAdapter.ViewHolder {
         //뷰홀더 생성, 아이템 뷰 객체 생성
@@ -40,7 +35,10 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.Adap
         holder.itemView.setOnClickListener{
             mItemClickListener.onItemClick(albumList[position])
         }
-
+        //Play 버튼 클릭이벤트
+        holder.binding.itemAlbumPlayImgIv.setOnClickListener {
+            mItemClickListener.onPlayBtnClick(albumList[position])
+        }
     }
 
     override fun getItemCount(): Int = albumList.size
