@@ -1,12 +1,13 @@
 package com.example.flo
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flo.databinding.ItemSavedSongBinding
 
-class SavedSongRVAdapter(private val songList: ArrayList<Song>): RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>() {
-
+class SavedSongRVAdapter(): RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>() {
+    private val songs = ArrayList<Song>()
     interface MyItemClickListener {
         fun onRemoveItem(position: Int)
     }
@@ -16,8 +17,17 @@ class SavedSongRVAdapter(private val songList: ArrayList<Song>): RecyclerView.Ad
         mItemClickListener = itemClickListener
     }
 
-    fun removeItem(position: Int){
-        songList.removeAt(position)
+    @SuppressLint("NotifyDataSetChanged")
+    fun addSongs(songs: ArrayList<Song>) {
+        this.songs.clear()
+        this.songs.addAll(songs)
+
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun removeItem(position: Int){
+        songs.removeAt(position)
         notifyDataSetChanged()
     }
 
@@ -28,13 +38,14 @@ class SavedSongRVAdapter(private val songList: ArrayList<Song>): RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: SavedSongRVAdapter.ViewHolder, position: Int) {
-        holder.bind(songList[position])
+        holder.bind(songs[position])
         holder.binding.itemSongMoreBtn.setOnClickListener{
-            mItemClickListener.onRemoveItem(position)
+            mItemClickListener.onRemoveItem(songs[position].id)
+            removeItem(position)
         }
     }
 
-    override fun getItemCount(): Int = songList.size
+    override fun getItemCount(): Int = songs.size
 
     inner class  ViewHolder(val binding: ItemSavedSongBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(song: Song){
